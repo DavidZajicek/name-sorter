@@ -23,16 +23,17 @@ namespace name_sorter
             // Declare people List
             List<Person> people = new List<Person>();
 
-            //int counter = 0;
             string line;
             
             // Read the file and display it line by line
             StreamReader file = new StreamReader(@".\unsorted-names-list.txt");
             while((line = file.ReadLine()) != null)
             {
-                var names = line.Split();
-                people.Add(new Person() { GivenName = String.Join(" ", names, 0, (names.Length - 1)), Surname = names[names.Length-1] });
-                //counter++;
+                if(line != "") // Ignore empty lines
+                {
+                    var names = line.Split();
+                    people.Add(new Person() { GivenName = String.Join(" ", names, 0, (names.Length - 1)), Surname = names[names.Length-1] });
+                }
             }
 
 
