@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 namespace name_sorter
 {
@@ -15,16 +16,25 @@ namespace name_sorter
             return GivenName + " " + Surname;
         }
     }
-        class Program
+    class Program
     {
         static void Main(string[] args)
         {
             // Declare people List
             List<Person> people = new List<Person>();
-            // Add people to people List
-            people.Add(new Person() { GivenName = "Abdul Jafar", Surname = "Vader" });
-            people.Add(new Person() { GivenName = "Adbul Jafar", Surname = "Vader" });
-            people.Add(new Person() { GivenName = "Abdul Jafar", Surname = "Cader" });
+
+            //int counter = 0;
+            string line;
+            
+            // Read the file and display it line by line
+            StreamReader file = new StreamReader(@".\unsorted-names-list.txt");
+            while((line = file.ReadLine()) != null)
+            {
+                var names = line.Split();
+                people.Add(new Person() { GivenName = String.Join(" ", names, 0, (names.Length - 1)), Surname = names[names.Length-1] });
+                //counter++;
+            }
+
 
             Console.WriteLine("List of names before sorting:");
             PrintArrayIndexAndValues(people);
@@ -42,8 +52,13 @@ namespace name_sorter
                 Console.WriteLine($"[{i++}]:   {item}");
             }
         }
+
+        
+
     }
 
+    
+        
 
 
 }
