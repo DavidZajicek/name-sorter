@@ -23,16 +23,26 @@ namespace name_sorter
             // Declare people List
             List<Person> people = new List<Person>();
 
-            //int counter = 0;
             string line;
-            
+            StreamReader inFile;
             // Read the file and display it line by line
-            StreamReader file = new StreamReader(@".\unsorted-names-list.txt");
-            while((line = file.ReadLine()) != null)
+            if (args.Length == 0)
             {
+                inFile = new StreamReader(@".\unsorted-names-list.txt");
+            }
+            else
+            {
+                inFile = new StreamReader(args[0]);
+            }
+
+            while ((line = inFile.ReadLine()) != null)
+            {
+                if (line != "")
+                {
                 var names = line.Split();
                 people.Add(new Person() { GivenName = String.Join(" ", names, 0, (names.Length - 1)), Surname = names[names.Length-1] });
-                //counter++;
+                }
+
             }
 
 
@@ -41,7 +51,8 @@ namespace name_sorter
             // Using LINQ to compare strings within list by sorting by surname, and then given name
             IEnumerable<Person> sortedPeople = people.OrderBy(person => person.Surname).ThenBy(person => person.GivenName);
             Console.WriteLine("List of names after a default sort: (Surname only)");
-            PrintArrayIndexAndValues(sortedPeople);
+            
+            PrintNamesAndWriteFile(sortedPeople);
         }
 
         public static void PrintArrayIndexAndValues(IEnumerable list)
@@ -53,7 +64,17 @@ namespace name_sorter
             }
         }
 
-        
+        public static void PrintNamesAndWriteFile(IEnumerable list)
+        {
+            StreamWriter outFile = new StreamWriter(@".\sorted-names-list.txt");
+            
+            foreach(var item in list)
+            {
+                Console.WriteLine(item);
+                outFile.WriteLine(item);
+            }
+            outFile.Close();
+        }
 
     }
 
