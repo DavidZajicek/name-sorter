@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System.Diagnostics;
 
 namespace name_sorter
 {
@@ -18,6 +19,8 @@ namespace name_sorter
     }
     class Program
     {
+        private static bool doDebugCode = false;
+        [Conditional("DEBUG")]
         static void Main(string[] args)
         {
             // Declare people List
@@ -25,14 +28,25 @@ namespace name_sorter
 
             string line;
             StreamReader inFile;
+
             // Read the file and display it line by line
-            if (args.Length == 0)
+            
+            if (args.Length == 1)
             {
-                inFile = new StreamReader(@".\unsorted-names-list.txt");
+                inFile = new StreamReader(args[0]);
             }
             else
             {
-                inFile = new StreamReader(args[0]);
+                Console.WriteLine("Please run app in commandline using 'name-sorter.exe .\\filename.txt");
+                Console.WriteLine("Press Enter to exit...");
+                Console.ReadLine();
+                if (doDebugCode)
+                {
+                    inFile = new StreamReader(@".\unsorted-names-list.txt");
+
+                }
+                inFile = null;
+                System.Environment.Exit(0);
             }
 
             while ((line = inFile.ReadLine()) != null)
@@ -76,9 +90,39 @@ namespace name_sorter
             outFile.Close();
         }
 
-    }
-
+        
     
+        public void TestPersonImportFromString(string _string)
+        {
+            // take "Given Name Surname" and end up with a <Person> with
+            // Givenname="Given name" and Surname="Surname"
+            string[] names = _string.Split();
+            Person person = new Person() { GivenName = String.Join(" ", names, 0, (names.Length - 1)), Surname = names[names.Length - 1] };
+            string personString = person.ToString();
+            Debug.Assert(personString == "Given name Surname");
+        }
+
+        public void TestPrintingFullNamesToConsole(List<Person> people)
+        {
+            foreach (var item in people)
+            {
+                // Print the Person's full name, formatted correctly
+            }
+        }
+
+        public void ReadLinesFromTextFile(StreamReader inFile)
+        {
+            // For each line in inFile, print the string to the Console
+        }
+
+        public void AddPeopleFromTextFile(StreamReader inFile)
+        {
+            // For each line in inFile, run ImportFromString,
+            // add the result to a List<Person>
+        }
+
+
+    }
         
 
 
