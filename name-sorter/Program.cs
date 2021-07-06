@@ -17,17 +17,15 @@ namespace name_sorter
             return GivenName + " " + Surname;
         }
     }
-    class Program
+    public class Program
     {
         private static bool doDebugCode = false;
         [Conditional("DEBUG")]
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            // Declare people List
+            // Initialise variables
             List<Person> people = new List<Person>();
-
-
             StreamReader inFile;
 
             // Check if a filename argument was given, then assign to inFile
@@ -40,11 +38,11 @@ namespace name_sorter
             IEnumerable<Person> sortedPeople = people.OrderBy(person => person.Surname).ThenBy(person => person.GivenName);
             Console.WriteLine("List of names after a default sort: (Surname only)");
 
-            PrintNamesAndWriteFile(sortedPeople);
+            PrintNamesAndWriteFile(sortedPeople); 
         }
 
 
-        static StreamReader ImportNamesFile(string[] args)
+        public static StreamReader ImportNamesFile(string[] args)
         {
             StreamReader inFile;
             if (args.Length == 1)
@@ -56,7 +54,7 @@ namespace name_sorter
             {
                 Console.WriteLine("Please run app in commandline using 'name-sorter.exe .\\filename.txt");
                 Console.WriteLine("Press Enter to exit...");
-                Console.ReadLine();
+                //Console.ReadLine();
                 if (doDebugCode)
                 {
                     inFile = new StreamReader(@".\unsorted-names-list.txt");
