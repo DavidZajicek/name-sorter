@@ -1,0 +1,79 @@
+namespace Namespace {
+    
+    using attrgetter = @operator.attrgetter;
+    
+    using System.Collections.Generic;
+    
+    public static class Module {
+        
+        public static object unsorted_names_string = "";
+        
+        public static object single_name_test = @"Hunter Uriah Mathew Clarke";
+        
+        public static object two_name_test = @"
+Mikayla Lopez
+Hunter Uriah Mathew Clarke
+Frankie Conner Ritter";
+        
+        public class Person {
+            
+            public Person(object givenname, object surname) {
+                this.givenname = givenname;
+                this.surname = surname;
+            }
+            
+            public virtual object @__repr__() {
+                return repr((this.givenname, this.surname));
+            }
+        }
+        
+        //#def split_person_names(names_list):
+        //#    """ Split a list of names up in to individual people, and then using those
+        //#        names, split them further using split_person_name() function. """
+        //#    people = names_list.split("\n")
+        //#    names = []
+        //#    for person in people:
+        //#        if person != '':
+        //#            names.append(split_person_name(person))
+        //#    return names
+        //#def create_better_array(name_ls):
+        //#    person = Person(split_person_name(name_ls)[0], split_person_name(name_ls)[1])
+        //#    return person
+        //  Split a full name up in to a name of arrays, with Given Names being
+        //         nest inside a single array and last name being separate. 
+        public static object split_person_name(object name) {
+            var names = name.split();
+            var names_formated = Person(" ".join(names[::(len(names)  -  1)]), names[names.Count - 1]);
+            return names_formated;
+        }
+        
+        public static object create_people_list(object people) {
+            var split_people = new List<object>();
+            foreach (var person in people) {
+                if (person != "") {
+                    split_people.append(split_person_name(person));
+                }
+            }
+            return split_people;
+        }
+        
+        public static object main() {
+            var unsorted_names_file = open("unsorted-names-list.txt", "r");
+            //#    unsorted_string = ""
+            var unsorted_string = unsorted_names_file.read().splitlines();
+            unsorted_names_file.close();
+            //sorted_list = sorted(create_people_list(unsorted_string), key=lambda person: person.surname)
+            var sorted_list = create_people_list(unsorted_string).OrderBy(attrgetter("surname", "givenname")).ToList();
+            var sorted_names_file = open("sorted-names-list.txt", "w");
+            foreach (var person in sorted_list) {
+                Console.WriteLine(person.givenname + " " + person.surname);
+                sorted_names_file.write(person.givenname + " " + person.surname + "\n");
+            }
+            sorted_names_file.close();
+        }
+        
+        static Module() {
+            main();
+        }
+    }
+}
