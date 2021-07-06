@@ -29,7 +29,7 @@ namespace name_sorter
             StreamReader inFile;
 
             // Check if a filename argument was given, then assign to inFile
-            inFile = ImportNamesFile(args);
+            inFile = ImportNamesFile(args[0]);
 
             // Read the file and return a list of people
             people = AddPeopleToListFromFile(inFile);
@@ -47,7 +47,7 @@ namespace name_sorter
             StreamReader inFile;
             if (args.Length == 1)
             {
-                inFile = new StreamReader(args[0]);
+                inFile = new StreamReader(args);
             }
 
             else // Exit App Early if no filename given
